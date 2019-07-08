@@ -51,6 +51,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    'DATE_INPUT_FORMATS': ['iso-8601', '%d %b %Y']
+}
+
 ROOT_URLCONF = 'movie_api.urls'
 
 TEMPLATES = [
