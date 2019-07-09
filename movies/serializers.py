@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .utils import fetch_movie_data
-from .models import Rating, Movie
+from .models import Rating, Movie, Comment
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -45,3 +45,10 @@ class CreateMovieSerializer(serializers.ModelSerializer):
         movie_serializer.is_valid(raise_exception=True)
         movie = movie_serializer.save()
         return movie
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    """Serializer for Comment model."""
+    class Meta:
+        model = Comment
+        fields = '__all__'
