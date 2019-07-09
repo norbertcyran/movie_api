@@ -7,6 +7,8 @@ class Movie(models.Model):
     """Model representing a movie."""
     title = models.CharField(max_length=50)
 
+    rated = models.CharField(max_length=2, null=True, blank=True)
+
     year = models.IntegerField(
         verbose_name=_('Year of release'),
         help_text=_('Year of release')
@@ -19,19 +21,19 @@ class Movie(models.Model):
 
     runtime = models.CharField(max_length=10)
 
-    genre = models.CharField(max_length=50)
+    genre = models.CharField(max_length=200)
 
-    director = models.CharField(max_length=50)
+    director = models.CharField(max_length=200)
 
-    writer = models.CharField(max_length=50)
+    writer = models.CharField(max_length=200)
 
     actors = models.TextField()
 
     plot = models.TextField(max_length=1000)
 
-    language = models.CharField(max_length=20)
+    language = models.CharField(max_length=200)
 
-    country = models.CharField(max_length=50)
+    country = models.CharField(max_length=200)
 
     awards = models.TextField()
 
@@ -57,12 +59,13 @@ class Movie(models.Model):
 
     box_office = models.CharField(max_length=20)
 
-    production = models.CharField(max_length=50)
+    production = models.CharField(max_length=200)
 
-    website = models.URLField()
+    website = models.CharField(max_length=200)
 
 
 class Rating(models.Model):
+    """Model representing movie rating."""
     movie = models.ForeignKey(
         Movie,
         on_delete=models.CASCADE,
@@ -71,7 +74,7 @@ class Rating(models.Model):
 
     source = models.CharField(
         verbose_name=_('Rating source'),
-        max_length=20
+        max_length=100
     )
 
     value = models.CharField(
