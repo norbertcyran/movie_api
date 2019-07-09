@@ -1,9 +1,10 @@
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
-from .models import Movie
-from .serializers import CreateMovieSerializer, MovieSerializer
+from .models import Movie, Comment
+from .serializers import CreateMovieSerializer, MovieSerializer, CommentSerializer
 
 
 class MovieListView(ListCreateAPIView):
@@ -27,3 +28,6 @@ class MovieListView(ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
+class CommentViewSet(ModelViewSet):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
