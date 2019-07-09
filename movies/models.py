@@ -81,3 +81,15 @@ class Rating(models.Model):
         verbose_name=_('Rating value'),
         max_length=10
     )
+
+
+class Comment(models.Model):
+    movie = models.ForeignKey(
+        Movie,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+
+    body = models.TextField()
+
+    created = models.DateTimeField(auto_now_add=True)
