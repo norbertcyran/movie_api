@@ -1,4 +1,6 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -10,6 +12,9 @@ from .serializers import CreateMovieSerializer, MovieSerializer, CommentSerializ
 class MovieListView(ListCreateAPIView):
     """API view for listing and creating movies."""
     queryset = Movie.objects.all()
+    filterset_fields = ('title', )
+    filter_backends = (OrderingFilter, DjangoFilterBackend)
+    ordering_fields = ('title', 'imdb_votes', 'year', 'imdb_rating', 'metascore')
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -31,3 +36,4 @@ class MovieListView(ListCreateAPIView):
 class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
+    filterset_fields = ('movie', )

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_nose',
+    'django_filters',
     'rest_framework',
     'movies'
 ]
@@ -53,7 +54,8 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    'DATE_INPUT_FORMATS': ['iso-8601', '%d %b %Y']
+    'DATE_INPUT_FORMATS': ['iso-8601', '%d %b %Y'],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend', )
 }
 
 ROOT_URLCONF = 'movie_api.urls'
