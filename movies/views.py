@@ -1,10 +1,13 @@
+from django.db.models import Count, Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
+from movies.exceptions import MissingQueryParamsException
 from .models import Movie, Comment
 from .serializers import CreateMovieSerializer, MovieSerializer, CommentSerializer
 
@@ -37,3 +40,29 @@ class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
     filterset_fields = ('movie', )
+
+
+class TopMoviesView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            from_date = self.request.query_params['from']
+            to_date = self.request.query_params['to']
+        except KeyError:
+            raise MissingQueryParamsException("Missing query params 'from' and 'to")
+        comment_filter = Q(comments__created__gte=from_date, comments__created__lte=to_date)
+        movies = Movie.objects.annotate(
+            total_comments=Count('comments', filter=comment_filter)
+        ).order_by('-total_comments')
+        data = []
+        rank = 0
+        prev_total = None
+        for movie in movies:
+            if movie.total_comments != prev_total or prev_total is None:
+                rank += 1
+            data.append({
+                'movie': movie.id,
+                'total_comments': movie.total_comments,
+                'rank': rank
+            })
+            prev_total = movie.total_comments
+        return Response(data)

@@ -7,5 +7,6 @@ router = DefaultRouter()
 router.register('comments', views.CommentViewSet)
 
 urlpatterns = [
-    path('movies/', views.MovieListView.as_view(), name='movie-list')
+    path('movies/', views.MovieListView.as_view(), name='movie-list'),
+    path('top/', views.TopMoviesView.as_view(), name='top-movies')
 ] + router.urls
