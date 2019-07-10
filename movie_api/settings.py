@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_nose',
     'rest_framework',
     'movies'
 ]
@@ -127,3 +128,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 OMDB_API_KEY = os.environ['OMDB_API_KEY']
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
