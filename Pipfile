@@ -4,11 +4,14 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+django-nose = "*"
+coverage = "*"
 
 [packages]
 django = "*"
 djangorestframework = "*"
 requests = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.7"
