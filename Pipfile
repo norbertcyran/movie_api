@@ -15,6 +15,7 @@ django-filter = "*"
 django-heroku = "*"
 gunicorn = "*"
 python-dotenv = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
