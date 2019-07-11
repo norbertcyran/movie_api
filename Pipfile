@@ -12,6 +12,8 @@ django = "*"
 djangorestframework = "*"
 requests = "*"
 django-filter = "*"
+django-heroku = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
