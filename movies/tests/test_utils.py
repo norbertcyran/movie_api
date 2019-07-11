@@ -3,6 +3,7 @@ from unittest import mock
 from django.test import TestCase
 
 from .fixtures import OMDB_RESPONSE_MOCK, PREPROCESSED_RESPONSE
+from ..exceptions import OMDBApiException
 from .. import utils
 
 
@@ -23,3 +24,15 @@ class UtilsTestCase(TestCase):
         )
         data = utils.fetch_movie_data('Clockwork orange')
         self.assertDictEqual(data, PREPROCESSED_RESPONSE)
+
+    @mock.patch('requests.get')
+    def test_fetch_movie_data__wrong_data(self, get_mock):
+        """OMDBApiException is raised when wrong data was provided."""
+        get_mock.return_value = mock.Mock(
+            json=mock.Mock(return_value={
+                'Response': 'False', 'Error': 'Movie not found.'
+            })
+        )
+
+        with self.assertRaisesRegex(OMDBApiException, 'Movie not found'):
+            utils.fetch_movie_data('Not existent movie')
