@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import django_heroku
 import dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -140,5 +139,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 OMDB_API_KEY = os.environ['OMDB_API_KEY']
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-django_heroku.settings(locals())
