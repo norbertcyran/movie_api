@@ -1,8 +1,10 @@
 from datetime import datetime
+from unittest import mock
 
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
+from .fixtures import PREPROCESSED_RESPONSE
 from ..models import Comment
 
 
@@ -33,6 +35,17 @@ class MoviesAPITestCase(APITestCase):
         ]
 
         self.assertListEqual(expected, response.data)
+
+    @mock.patch('movies.utils.fetch_movie_data')
+    def test_create_movie(self, fetch_mock):
+        """Movie is fetched from OMDb and inserted into app db."""
+        fetch_mock.return_value = PREPROCESSED_RESPONSE
+
+        path = reverse('movie-list')
+        response = self.client.post(path, data={'title': 'Clockwork orange'})
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['title'], 'A Clockwork Orange')
 
     @staticmethod
     def _create_comment(movie_id, created):
