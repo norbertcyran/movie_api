@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-nose = "*"
 coverage = "*"
 
 [packages]
@@ -15,7 +14,7 @@ django-filter = "*"
 django-heroku = "*"
 gunicorn = "*"
 python-dotenv = "*"
-whitenoise = "*"
+django-nose = "*"
 
 [requires]
 python_version = "3.7"
