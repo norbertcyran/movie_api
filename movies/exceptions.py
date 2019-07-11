@@ -8,8 +8,8 @@ class MissingQueryParamsException(APIException):
     default_code = 'missing_query_params'
 
 
-class MovieNotFoundException(APIException):
-    """Exception raised when movie was not found in OMDb."""
-    status_code = 404
-    default_detail = 'Movie with such title was not found in OMDb.'
-    default_code = 'movie_not_found'
+class OMDBApiException(APIException):
+    """Exception raised when error occurred in OMDb API."""
+    status_code = 400
+    default_detail = 'Error occurred during requesting OMDb API.'
+    default_code = 'omdb_error'
