@@ -16,3 +16,7 @@ and `DEBUG=True`
 1. `pipenv install`
 2. `python manage.py migrate`
 3. `python manage.py runserver`
+
+#### Production
+Steps like above, but don't include `DEBUG=True` in .env and run 
+`python manage.py collectstatic`
