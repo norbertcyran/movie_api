@@ -43,7 +43,18 @@ class CommentViewSet(ModelViewSet):
 
 
 class TopMoviesView(APIView):
+    """
+    API View for displaying top movies.
+
+    Top movies ranked by total comments count in specified date range.
+    """
     def get(self, request, *args, **kwargs):
+        """
+        Get top movies.
+
+        Query params (required):
+            from, to - date range of comments being ranked.
+        """
         try:
             from_date = self.request.query_params['from']
             to_date = self.request.query_params['to']
