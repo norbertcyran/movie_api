@@ -20,3 +20,7 @@ and `DEBUG=True`
 #### Production
 Steps like above, but don't include `DEBUG=True` in .env and run 
 `python manage.py collectstatic`
+
+
+### Live
+Live on [Heroku](rocky-scrubland-34410.herokuapp.com/api)
