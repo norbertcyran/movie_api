@@ -3,7 +3,7 @@ import re
 import requests
 from django.conf import settings
 
-from .exceptions import MovieNotFoundException
+from .exceptions import OMDBApiException
 
 OMDB_URL = 'http://omdbapi.com'
 
@@ -15,9 +15,10 @@ def fetch_movie_data(title):
     """Fetch movie data from OMDb API."""
     api_key = settings.OMDB_API_KEY
     rsp = requests.get(OMDB_URL, params={'t': title, 'apikey': api_key})
-    if rsp.json()['Response'] != 'True':
-        raise MovieNotFoundException
-    data = preprocess_movie_data(rsp.json())
+    rsp_data = rsp.json()
+    if rsp_data['Response'] != 'True':
+        raise OMDBApiException(rsp_data['Error'])
+    data = preprocess_movie_data(rsp_data)
     return data
 
 
