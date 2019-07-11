@@ -132,6 +132,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+
 OMDB_API_KEY = os.environ['OMDB_API_KEY']
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
