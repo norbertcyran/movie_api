@@ -23,4 +23,4 @@ Steps like above, but don't include `DEBUG=True` in .env and run
 
 
 ### Live
-Live on [Heroku](rocky-scrubland-34410.herokuapp.com/api)
+Live on [Heroku](http://rocky-scrubland-34410.herokuapp.com/api)
