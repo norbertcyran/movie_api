@@ -11,21 +11,24 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dotenv
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+dotenv.load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1gkp@a#v67yux-u%l54go^e)lxf67omo5%gtt1j0gbvsv(l$d!'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'rocky-scrubland-34410.herokuapp.com']
 
 
 # Application definition
@@ -37,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_nose',
+    'django_filters',
+    'rest_framework',
+    'movies'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +55,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DATE_INPUT_FORMATS': ['iso-8601', '%d %b %Y'],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend', )
+}
 
 ROOT_URLCONF = 'movie_api.urls'
 
@@ -73,13 +85,25 @@ WSGI_APPLICATION = 'movie_api.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+DOCKER_DB = os.getenv('DOCKER_DB', False)
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DOCKER_DB:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'HOST': 'db',
+            'PORT': 5432
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
@@ -119,3 +143,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+OMDB_API_KEY = os.environ['OMDB_API_KEY']
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+django_heroku.settings(locals(), allowed_hosts=False)

@@ -4,10 +4,17 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+coverage = "*"
 
 [packages]
 django = "*"
 djangorestframework = "*"
+requests = "*"
+django-filter = "*"
+django-heroku = "*"
+gunicorn = "*"
+python-dotenv = "*"
+django-nose = "*"
 
 [requires]
 python_version = "3.7"
